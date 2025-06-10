@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Dashboard - Agence Immobilière</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
   <style>
@@ -46,36 +47,35 @@
 
     nav.navbar {
       background-color: rgba(0, 0, 0, 0.9);
-      padding: 10px 30px;
-      display: flex;
-      justify-content: center;
     }
 
-    nav.navbar .nav-links {
-      display: flex;
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    nav.navbar .nav-links a {
-      color: white;
-      text-decoration: none;
+    .navbar-nav .nav-link {
+      color: white !important;
       font-weight: 600;
-      font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: background-color 0.3s;
+      padding: 10px 15px;
     }
 
-    nav.navbar .nav-links a:hover,
-    nav.navbar .nav-links a.active {
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+      background-color: #ffc107;
+      color: black !important;
+      border-radius: 6px;
+    }
+
+    .dropdown-menu {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .dropdown-menu .dropdown-item {
+      color: #000;
+      font-weight: 500;
+    }
+
+    .dropdown-menu .dropdown-item:hover {
       background-color: #ffc107;
       color: black;
-    }
-
-    .carousel-container {
-      margin-top: 50px;
-      position: relative;
     }
 
     .carousel-image {
@@ -96,36 +96,6 @@
       padding: 10px 20px;
       border-radius: 10px;
       text-shadow: 0 0 10px black;
-    }
-
-    .carousel-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 40px;
-      color: white;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      line-height: 50px;
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.3s;
-    }
-
-    .carousel-arrow:hover {
-      background: #ffc107;
-      color: black;
-    }
-
-    .carousel-arrow.left {
-      left: 20px;
-    }
-
-    .carousel-arrow.right {
-      right: 20px;
     }
 
     .welcome-box {
@@ -177,22 +147,14 @@
       color: #343a40;
       margin-bottom: 20px;
     }
-
-    .presentation-section p {
-      font-size: 16px;
-      color: #555;
-      margin-bottom: 30px;
-    }
-
-    .full-width-video {
-  width: 100%;
-  height: 900px;
-  margin: 40px auto;
-  
-  object-fit: cover;
-  display: block;
-  transform: scale(0.90); /* 0.8 ou 0.75 pour plus petit */
-  transform-origin: center;
+ @media(max-width: 768px) {
+  .full-width-video {
+    width: 900% !important;  /* forcer la largeur à 100% */
+    height: 700px;
+    max-height: none;
+    margin: 0 auto;          /* margin horizontal à zéro */
+    display: block;
+  }
 }
 
 
@@ -219,11 +181,28 @@
         gap: 10px;
       }
     }
+    @media(max-width: 768px) {
+  body {
+    margin: 0;
+    padding: 0;
+  }}
+
+.video-container {
+  width: 100%;
+  aspect-ratio: 16/9; /* Ratio classique 16:9 (comme YouTube) */
+  overflow: hidden;
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
   </style>
 </head>
 <body>
 
-  <!-- Coordonnées en haut -->
+  <!-- Coordonnées -->
   <div class="top-bar">
     <div class="contact-info">
       <span><i class="fas fa-phone"></i> 772294183</span>
@@ -238,25 +217,62 @@
     </div>
   </div>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-links">
-      <a href="#" class="active">Home</a>
-      <a href="acheter.php">Acheter</a>
-      <a href="louer.php">Louer</a>
-      <a href="vendre.php">Vendre</a>
-      <a href="fairegerer.php">Faire gérer</a>
-      <a href="apropos.php">À propos de nous</a>
-      <a href="contact.php">Nous contacter</a>
+  <!-- ... (toute la partie de ton code inchangée avant ici) -->
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+
+        <!-- Menu Acheter modifié -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="acheterDropdown" role="button" data-bs-toggle="dropdown">Acheter</a>
+          <ul class="dropdown-menu" aria-labelledby="acheterDropdown">
+            <li><a class="dropdown-item" href="achete.php?type=appartement">Appartement</a></li>
+            <li><a class="dropdown-item" href="achete.php?type=villa">Villa</a></li>
+            <li><a class="dropdown-item" href="achete.php?type=terrain">Terrain</a></li>
+            <li><a class="dropdown-item" href="achete.php?type=commercial">Local commercial</a></li>
+          </ul>
+        </li>
+
+        <!-- Louer reste inchangé -->
+         <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="louerDropdown" role="button" data-bs-toggle="dropdown">Louer</a>
+          <ul class="dropdown-menu" aria-labelledby="louerDropdown">
+            <li><a class="dropdown-item" href="louer.php?type=appartement">Appartement</a></li>
+            <li><a class="dropdown-item" href="louer.php?type=villa">Villa</a></li>
+            <li><a class="dropdown-item" href="louer.php?type=terrain">Terrain</a></li>
+            <li><a class="dropdown-item" href="louer.php?type=commercial">Local commercial</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item"><a class="nav-link" href="vendre.php">Vendre</a></li>
+        <li class="nav-item"><a class="nav-link" href="fairegerer.php">Faire gérer</a></li>
+        <li class="nav-item"><a class="nav-link" href="apropos.php">À propos</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+      </ul>
+
+      <form class="d-flex me-3" role="search" onsubmit="event.preventDefault(); alert('Recherche lancée pour : ' + this.query.value);">
+        <input class="form-control me-2" type="search" name="query" placeholder="Rechercher" aria-label="Rechercher" />
+        <button class="btn btn-warning" type="submit">Rechercher</button>
+      </form>
+      <a href="connexion.php" class="btn btn-outline-warning">Connexion</a>
     </div>
-  </nav>
+  </div>
+</nav>
+
+<!-- ... (tout le reste de ton code inchangé après ici) -->
+
 
   <!-- Carousel -->
-  <div class="carousel-container">
+  <div class="carousel-container position-relative">
     <img id="carousel-img" class="carousel-image" src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1740&q=80" alt="Appartement" />
     <div class="carousel-caption" id="carousel-caption">Appartement</div>
-    <div class="carousel-arrow left" id="prev">&#10094;</div>
-    <div class="carousel-arrow right" id="next">&#10095;</div>
 
     <!-- Boîte de bienvenue -->
     <div class="welcome-box">
@@ -271,43 +287,30 @@
     <p>À la Sénégalaise de l’Immobilier, nous vous accompagnons dans toutes vos démarches : achat, vente, location ou gestion de biens. Notre équipe vous guide avec expertise et professionnalisme.</p>
   </div>
 
-  <!-- Vidéo en pleine largeur -->
-  <video autoplay muted loop class="full-width-video">
-    <source src="Wh2.mp4" type="video/mp4" />
-    Votre navigateur ne supporte pas la lecture de la vidéo.
-  </video>
+  <!-- Vidéo -->
+
+<<div class="video-container">
+  <video src="Wh2.mp4" autoplay muted loop playsinline></video>
+</div>
 
   <!-- Script du carousel -->
   <script>
     const slides = [
-      {
-        src: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1740&q=80',
-        caption: 'Appartement'
-      },
-      {
-        src: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1740&q=80',
-        caption: 'Studio'
-      }
+      { src: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1740&q=80', caption: 'Appartement' },
+      { src: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1740&q=80', caption: 'Studio' }
     ];
-
     let currentIndex = 0;
     const imgElement = document.getElementById('carousel-img');
     const captionElement = document.getElementById('carousel-caption');
-    const prevBtn = document.getElementById('prev');
-    const nextBtn = document.getElementById('next');
-
     function showSlide(index) {
       currentIndex = (index + slides.length) % slides.length;
       imgElement.src = slides[currentIndex].src;
       captionElement.textContent = slides[currentIndex].caption;
     }
-
-    prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
-    nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
-
     setInterval(() => showSlide(currentIndex + 1), 5000);
     showSlide(currentIndex);
   </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
 </body>
 </html>

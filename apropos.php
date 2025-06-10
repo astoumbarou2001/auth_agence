@@ -107,7 +107,7 @@
     .content-section {
       max-width: 900px;
       margin: 50px auto;
-      padding: 0 20px;
+      padding: 0 20px 40px 20px;
       background: white;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -128,6 +128,14 @@
       margin-top: 15px;
     }
 
+    .content-section ul {
+      margin-top: 15px;
+      color: #555;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      padding-left: 20px;
+    }
+
     @media (max-width: 600px) {
       .carousel-text {
         font-size: 2.5rem;
@@ -137,10 +145,24 @@
       .content-section {
         margin: 30px 10px;
       }
+      nav.navbar .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
+    <nav class="navbar navbar-light bg-light shadow-sm">
+  <div class="container-fluid">
+    <a href="dashboard.php" class="btn btn-outline-secondary">
+      ← Tableau de bord
+    </a>
+    <span class="navbar-text">
+      Section actuelle : A propos
+    </span>
+  </div>
+</nav>
 
   <!-- Top bar identique dashboard -->
   <div class="top-bar">
@@ -157,22 +179,11 @@
     </div>
   </div>
 
-  <!-- Navbar identique dashboard -->
-  <nav class="navbar">
-    <div class="nav-links">
-      <a href="dashboard.php">Home</a>
-      <a href="#">Acheter</a>
-      <a href="#">Louer</a>
-      <a href="#">Vendre</a>
-      <a href="#">Faire gérer</a>
-      <a href="#" class="active">À propos de nous</a>
-      <a href="contact.php">Nous contacter</a>
-    </div>
-  </nav>
 
   <!-- Carousel pleine largeur avec image fiable -->
   <div class="carousel-container">
-    <img src="https://picsum.photos/1920/400" alt="Immobilier" />
+    <img src="images/OP.jpg" class="d-block w-100" alt="Slide 1">
+
     <div class="carousel-text">À propos de nous</div>
   </div>
 
@@ -205,3 +216,4 @@
 
 </body>
 </html>
+ 

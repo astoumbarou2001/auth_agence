@@ -1,3 +1,29 @@
+
+<?php
+$successMessage = "";
+
+$conn = new mysqli("localhost", "root", "", "agence_immo");
+if ($conn->connect_error) {
+    die("Erreur de connexion à la base : " . $conn->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $conn->real_escape_string(trim($_POST['name']));
+    $email = $conn->real_escape_string(trim($_POST['email']));
+    $subject = $conn->real_escape_string(trim($_POST['subject']));
+    $message = $conn->real_escape_string(trim($_POST['message']));
+
+    $sql = "INSERT INTO contacts (name, email, subject, message) VALUES ('$name', '$email', '$subject', '$message')";
+    if ($conn->query($sql) === TRUE) {
+        $successMessage = "Merci, votre message a bien été envoyé !";
+    } else {
+        $successMessage = "Erreur lors de l'envoi du message : " . $conn->error;
+    }
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,17 +32,17 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
   <style>
+    /* Ton CSS ici, inchangé */
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
       background: #f8f9fa;
     }
 
-    /* En-tête - top-bar */
     .top-bar {
       background-color: #343a40;
       color: white;
-      padding: 5px 30px;
+      padding: 8px 30px;
       font-size: 14px;
       display: flex;
       justify-content: space-between;
@@ -36,76 +62,69 @@
       gap: 10px;
     }
 
-    .top-bar i {
-      margin-right: 5px;
-    }
-
     .top-bar a {
       color: white;
       text-decoration: none;
     }
 
-    /* Navbar */
     nav.navbar {
-      background-color: rgba(0, 0, 0, 0.9);
+      background-color: #000;
       padding: 10px 30px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    nav.navbar .nav-links {
-      display: flex;
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    nav.navbar .nav-links a {
       color: white;
-      text-decoration: none;
+    }
+
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      max-height: 400px;
+      overflow: hidden;
+    }
+
+    .carousel-container img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;
+    }
+
+    .carousel-text {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 15px 25px;
+      font-size: 22px;
       font-weight: 600;
-      font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: background-color 0.3s;
+      border-radius: 10px;
     }
 
-    nav.navbar .nav-links a:hover,
-    nav.navbar .nav-links a.active {
-      background-color: #ffc107;
-      color: black;
-    }
-
-    /* Contenu principal */
     .contact-container {
       max-width: 1100px;
-      margin: 60px auto 80px auto;
+      margin: 60px auto;
       background: white;
       border-radius: 15px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       display: flex;
       overflow: hidden;
-      /* flex-wrap: wrap; supprimé pour éviter problème d’affichage */
     }
 
-    /* Partie gauche - image AVEC TEINTE VERTE */
     .contact-image {
-      flex: none;
       width: 450px;
-      min-height: 450px;
       background-image: url('https://via.placeholder.com/450x450.png?text=Test+Image');
-
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-color: #ddd;
     }
 
-    /* Partie droite - formulaire */
     .contact-form {
-      flex: 1 1 auto;
-      padding: 40px 50px;
+      flex: 1;
+      padding: 50px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .contact-form h2 {
@@ -121,7 +140,8 @@
       color: #555;
     }
 
-    .contact-form input, .contact-form textarea {
+    .contact-form input,
+    .contact-form textarea {
       width: 100%;
       padding: 12px 15px;
       margin-top: 5px;
@@ -129,10 +149,10 @@
       border-radius: 8px;
       font-size: 15px;
       transition: border-color 0.3s;
-      resize: vertical;
     }
 
-    .contact-form input:focus, .contact-form textarea:focus {
+    .contact-form input:focus,
+    .contact-form textarea:focus {
       border-color: #ffc107;
       outline: none;
     }
@@ -157,13 +177,14 @@
     @media (max-width: 900px) {
       .contact-container {
         flex-direction: column;
-        margin: 30px 20px 50px 20px;
+        margin: 30px 20px;
       }
-      .contact-image, .contact-form {
-        flex: 1 1 100%;
-        min-height: 300px;
+
+      .contact-image {
         width: 100%;
+        height: 300px;
       }
+
       .contact-form {
         padding: 30px 20px;
       }
@@ -172,7 +193,17 @@
 </head>
 <body>
 
-  <!-- Top bar identique dashboard -->
+  <nav class="navbar navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+      <a href="dashboard.php" class="btn btn-outline-secondary">
+        ← Tableau de bord
+      </a>
+      <span class="navbar-text">
+        Section actuelle : Contact
+      </span>
+    </div>
+  </nav>
+
   <div class="top-bar">
     <div class="contact-info">
       <span><i class="fas fa-phone"></i> 772294183</span>
@@ -187,24 +218,22 @@
     </div>
   </div>
 
-  <!-- Navbar identique dashboard -->
-  <nav class="navbar">
-    <div class="nav-links">
-      <a href="dashboard.php">Home</a>
-      <a href="#">Acheter</a>
-      <a href="#">Louer</a>
-      <a href="#">Vendre</a>
-      <a href="#">Faire gérer</a>
-      <a href="#">À propos de nous</a>
-      <a href="contact.php" class="active">Nous contacter</a>
-    </div>
-  </nav>
+  <div class="carousel-container">
+    <img src="images/OP.jpg" alt="Immobilier" />
+    <div class="carousel-text">Pour toute question ou assistance, n’hésitez pas à nous contacter</div>
+  </div>
 
-  <!-- Contenu principal contact -->
   <div class="contact-container">
     <div class="contact-image"></div>
     <div class="contact-form">
       <h2>Contactez-nous</h2>
+
+      <?php if (!empty($successMessage)) : ?>
+          <div class="alert alert-success" role="alert" style="margin-bottom: 20px;">
+              <?= htmlspecialchars($successMessage) ?>
+          </div>
+      <?php endif; ?>
+
       <form action="#" method="post">
         <label for="name">Nom complet</label>
         <input type="text" id="name" name="name" placeholder="Votre nom complet" required>

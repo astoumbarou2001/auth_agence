@@ -45,38 +45,6 @@
       text-decoration: none;
     }
 
-    /* Navbar */
-    nav.navbar {
-      background-color: rgba(0, 0, 0, 0.9);
-      padding: 10px 30px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    nav.navbar .nav-links {
-      display: flex;
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    nav.navbar .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: background-color 0.3s;
-    }
-
-    nav.navbar .nav-links a:hover,
-    nav.navbar .nav-links a.active {
-      background-color: #ffc107;
-      color: black;
-    }
-
     /* Section principale */
     .main-section {
       max-width: 1100px;
@@ -168,6 +136,16 @@
   </style>
 </head>
 <body>
+    <nav class="navbar navbar-light bg-light shadow-sm">
+  <div class="container-fluid">
+    <a href="dashboard.php" class="btn btn-outline-secondary">
+      ← Tableau de bord
+    </a>
+    <span class="navbar-text">
+      Section actuelle : Faire gerer
+    </span>
+  </div>
+</nav>
 
   <!-- Top bar -->
   <div class="top-bar">
@@ -184,38 +162,25 @@
     </div>
   </div>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-links">
-      <a href="dashboard.php">Home</a>
-      <a href="#">Acheter</a>
-      <a href="#">Louer</a>
-      <a href="#">Vendre</a>
-      <a href="#" class="active">Faire gérer</a>
-      <a href="apropos.php">À propos de nous</a>
-      <a href="contact.php">Nous contacter</a>
-    </div>
-  </nav>
-
   <!-- Section principale -->
   <div class="main-section">
     <!-- Texte -->
     <div class="main-text">
       <h2>Pourquoi nous confier votre bien ?</h2>
       <p>
-        Confier la gestion de votre bien immobilier à notre agence, c’est choisir la tranquillité d’esprit. Nous assurons un suivi rigoureux et personnalisé de chaque étape : de la mise en location, la sélection rigoureuse des locataires, la perception des loyers, à l’entretien et à la valorisation de votre patrimoine.  
+        Confier la gestion de votre bien immobilier à notre agence, c'est choisir la tranquillité d'esprit. Nous assurons un suivi rigoureux et personnalisé de chaque étape : de la mise en location, la sélection rigoureuse des locataires, la perception des loyers, à l'entretien et à la valorisation de votre patrimoine.  
       </p>
       <p>
-        Notre équipe expérimentée connaît parfaitement le marché local et s’engage à défendre vos intérêts avec transparence et professionnalisme. Grâce à notre large réseau et nos outils modernes, nous maximisons la rentabilité de votre bien tout en minimisant les risques liés à la gestion locative.
+        Notre équipe expérimentée connaît parfaitement le marché local et s'engage à défendre vos intérêts avec transparence et professionnalisme. Grâce à notre large réseau et nos outils modernes, nous maximisons la rentabilité de votre bien tout en minimisant les risques liés à la gestion locative.
       </p>
       <p>
-        En nous confiant votre bien, vous bénéficiez également de rapports réguliers et d’un service client disponible pour répondre à toutes vos questions. Vous pouvez ainsi vous concentrer sur vos projets pendant que nous nous occupons de tout.
+        En nous confiant votre bien, vous bénéficiez également de rapports réguliers et d'un service client disponible pour répondre à toutes vos questions. Vous pouvez ainsi vous concentrer sur vos projets pendant que nous nous occupons de tout.
       </p>
     </div>
 
     <!-- Formulaire -->
     <div class="form-container">
-      <form action="envoyer_fairegerer.php" method="POST">
+      <form id="contactForm">
         <div class="form-group">
           <label for="nom">Nom</label>
           <input type="text" id="nom" name="nom" required />
@@ -241,5 +206,34 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Récupération des valeurs du formulaire
+      const nom = document.getElementById('nom').value;
+      const prenom = document.getElementById('prenom').value;
+      const email = document.getElementById('email').value;
+      const telephone = document.getElementById('telephone').value;
+      const message = document.getElementById('message').value;
+      
+      // Affichage des données dans la console (à remplacer par un envoi réel en production)
+      console.log('Formulaire soumis :', {
+        nom,
+        prenom,
+        email,
+        telephone,
+        message
+      });
+      
+      // Message de confirmation à l'utilisateur
+      alert('Merci ' + prenom + ' ' + nom + ' ! Votre demande a bien été envoyée. Nous vous contacterons bientôt à l\'adresse ' + email + ' ou au ' + telephone + '.');
+      
+      // Réinitialisation du formulaire
+      this.reset();
+    });
+  </script>
 </body>
 </html>
